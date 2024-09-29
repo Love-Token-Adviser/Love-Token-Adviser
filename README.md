@@ -1,12 +1,11 @@
 # Love-Token-Adviser
 
 ## 1. Project Overview
-- Project Name: [Name]
 - Target Audience: Couples looking for gift ideas and date outfit suggestions
 - Main Features: 
 	Gift recommendations
 	Outfit suggestions for dates
-	Date spot suggetions for place
+	Date spot suggetions for place(On hold)
 
 ## 2. User Personas
 - [Describe 2-3 typical user personas]
