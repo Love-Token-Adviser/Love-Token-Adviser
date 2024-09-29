@@ -36,12 +36,12 @@
 - 
 
 ## 5. Technical Architecture
-| Language/FrameWork |          |
-| :----------------- | -------: |
-| react.js           | frontend |
-| django             | backend  |
-| tailwind           | CSSstyle |
-| PostgreSQL         | Database |
+|	   | Language/FrameWork | 
+|:---------|:-------------------| 
+| frontend | react.js           | 
+| backend  | django             | 
+| CSSstyle | tailwind           | 
+| Database | PostgreSQL         |
 
 ## 6. Data Models
 	1. User
