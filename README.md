@@ -13,7 +13,7 @@
 
 ## 3. User Journey
 
-''' 
+```
     - Home
 	|- SignUp
 	     |- AccountRegistrationWindow(Return-UserTopPage)
@@ -27,7 +27,7 @@
 				|- UserInputPage (User: Age(20 fix), PriceRange, Place, DateDay)(AutoFill: Wether)
 			 	|- SuggetionPage (Category, Price, Ranking)
 			 	|- ConclusionPage (Like cart)
-'''
+```
 
 ## 4. Features and Functionality
 ### 3.1 Gift Recommender
