@@ -12,7 +12,8 @@
 - [Describe 2-3 typical user personas]
 
 ## 3. User Journey
-'''
+
+''' 
     - Home
 	|- SignUp
 	     |- AccountRegistrationWindow(Return-UserTopPage)
@@ -27,6 +28,7 @@
 			 	|- SuggetionPage (Category, Price, Ranking)
 			 	|- ConclusionPage (Like cart)
 '''
+
 ## 4. Features and Functionality
 ### 3.1 Gift Recommender
 - 
