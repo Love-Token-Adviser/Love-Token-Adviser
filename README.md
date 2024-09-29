@@ -33,7 +33,7 @@
 - 
 
 ### 3.2 Date Outfit Suggester
-- [List key features and how they work]
+- 
 
 ## 5. Technical Architecture
 - frontend : react.js
@@ -42,14 +42,14 @@
 
 ## 6. Data Models
 	1. User
-		- Fields:
-		    - id: Integer (Primary Key)
-		    - username: String (Unique)
-		    - email: String (Unique)
-		    - password: String
-		    - signup_date: DateTime
-		    - is_active: Boolean (default=True)
-		    - last_login: DateTime
+	- Fields:
+	    - id: Integer (Primary Key)
+	    - username: String (Unique)
+	    - email: String (Unique)
+	    - password: String
+	    - signup_date: DateTime
+	    - is_active: Boolean (default=True)
+	    - last_login: DateTime
 	2. Gift
 	- Fields:
 	    - id: Integer (Primary Key)
