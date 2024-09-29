@@ -101,14 +101,14 @@
 	    - created_at: DateTime
 	    - updated_at: DateTime
  
-  entities = {
-  "User": ["id (PK)", "username", "email", "password", "signup_date", "is_active", "last_login"],
-  "Gift": ["id (PK)", "name", "category", "price", "description", "ranking", "created_at", "updated_at"],
-  "Outfit": ["id (PK)", "name", "category", "price", "occasion", "weather", "date_day", "description", "created_at", "updated_at"],
-  "Gift Recommendation": ["id (PK)", "user_id (FK)", "gift_id (FK)", "recipient", "recipient_age", "price_range", "recommendation_date"],
-  "Outfit Suggestion": ["id (PK)", "user_id (FK)", "outfit_id (FK)", "occasion", "place", "date_day", "price_range", "weather", "suggestion_date"],
-  "Date Spot Suggestion": ["id (PK)", "place", "description", "category", "location", "ranking", "created_at", "updated_at"]
-	}
+	  entities = {
+	  "User": ["id (PK)", "username", "email", "password", "signup_date", "is_active", "last_login"],
+	  "Gift": ["id (PK)", "name", "category", "price", "description", "ranking", "created_at", "updated_at"],
+	  "Outfit": ["id (PK)", "name", "category", "price", "occasion", "weather", "date_day", "description", "created_at", "updated_at"],
+	  "Gift Recommendation": ["id (PK)", "user_id (FK)", "gift_id (FK)", "recipient", "recipient_age", "price_range", "recommendation_date"],
+	  "Outfit Suggestion": ["id (PK)", "user_id (FK)", "outfit_id (FK)", "occasion", "place", "date_day", "price_range", "weather", "suggestion_date"],
+	  "Date Spot Suggestion": ["id (PK)", "place", "description", "category", "location", "ranking", "created_at", "updated_at"]
+		}
 
 ## 7. API Endpoints
 - [List main API endpoints if applicable]
