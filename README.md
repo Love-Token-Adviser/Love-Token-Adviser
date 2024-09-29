@@ -12,20 +12,21 @@
 - [Describe 2-3 typical user personas]
 
 ## 3. User Journey
-- Home
-	 |- SignUp
-				 |- AccountRegistrationWindow(Return-UserTopPage)
-   |- Login
-				 |- UserTopPage
-				         |- Gift recommendations
-										         |- UserInputPage (To, Age(20 fix), PriceRange)
-											       |- SuggetionPage (Category, Price, Ranking)
-											       |- ConclusionPage (Like cart)
-				         |- Outfit suggestions for dates
-										         |- UserInputPage (User: Age(20 fix), PriceRange, Place, DateDay)(AutoFill: Wether)
-										         |- SuggetionPage (Category, Price, Ranking)
-										         |- ConclusionPage (Like cart)
-
+'''
+    - Home
+	|- SignUp
+	     |- AccountRegistrationWindow(Return-UserTopPage)
+   	|- Login
+	     |- UserTopPage
+		     	|- Gift recommendations
+			       	|- UserInputPage (To, Age(20 fix), PriceRange)
+				|- SuggetionPage (Category, Price, Ranking)
+				|- ConclusionPage (Like cart)
+			|- Outfit suggestions for dates
+				|- UserInputPage (User: Age(20 fix), PriceRange, Place, DateDay)(AutoFill: Wether)
+			 	|- SuggetionPage (Category, Price, Ranking)
+			 	|- ConclusionPage (Like cart)
+'''
 ## 4. Features and Functionality
 ### 3.1 Gift Recommender
 - 
