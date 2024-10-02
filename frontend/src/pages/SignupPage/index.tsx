@@ -1,6 +1,5 @@
 import { useState, ChangeEvent, MouseEvent } from "react";
 import apiClient from "../../apis/apiClient";
-// import CSRFToken from "../../apis/CSRFToken";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -18,6 +17,7 @@ const SignupPage = () => {
 
   const handleSubmit = (e: MouseEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     apiClient
       .post("accounts/signup/", formData)
       .then((response) => {
@@ -36,7 +36,6 @@ const SignupPage = () => {
         onSubmit={handleSubmit}
         className="mt-3 flex flex-col gap-6 items-center"
       >
-        {/* <CSRFToken /> */}
         <div className="flex gap-3">
           <label>Username</label>
           <input
