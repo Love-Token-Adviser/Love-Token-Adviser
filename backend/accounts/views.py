@@ -1,9 +1,8 @@
-from numpy import generic
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from accounts.forms import CustomUserCreationForm
-from .models import CustomUser
+# from accounts.forms import CustomUserCreationForm
+# from .models import CustomUser
 from .serializers import CustomUserSerializer 
 
 # class CustomAccountCreationView(generic.CreateView):
