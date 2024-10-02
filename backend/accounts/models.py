@@ -33,7 +33,6 @@ class CustomUser(AbstractBaseUser):
     email = models.EmailField('Email Address', unique=True)
     age = models.PositiveIntegerField('Age', default=0)
     is_admin = models.BooleanField('Admin', default=False)
-    is_active = models.BooleanField('Active', default=False)
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']

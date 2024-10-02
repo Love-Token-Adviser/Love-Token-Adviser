@@ -5,13 +5,11 @@
     <title>{% block title %}Python Course{% endblock %}</title>
 </head>
 <body>
-<div class="container">
-    <h2 class="mt-4">Login Page</h2>
-    <form method="post" action="" class="mt-3">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-</div>
+  <h2>Login Page</h2>
+  <form method="post" action="">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input type="submit" id="save" value="Login">
+  </form>
 </body>
 </html>
