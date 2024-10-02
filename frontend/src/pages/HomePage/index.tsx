@@ -1,25 +1,21 @@
 import { useState, useEffect } from "react";
+import apiClient from "../../apis/apiClient";
 
 const HomePage = () => {
   const [data, setData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch("/test/");
-      const data = await response.json();
-
-      setData(data);
+      await apiClient.get("test/").then((res) => setData(res.data.message));
     };
 
     fetchData();
   }, [setData]);
 
-  console.log(data);
-
   return (
     <div>
       <h1 className="bg-red-200">Home</h1>
-      <div>imst</div>
+      {data && <div>{data}</div>}
     </div>
   );
 };
