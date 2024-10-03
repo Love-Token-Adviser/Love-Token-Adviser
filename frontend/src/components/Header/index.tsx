@@ -2,6 +2,7 @@ import heartIcon from "../../assets/heart.png";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useLoginContext } from "@/components/context/useLoginContext";
+import { TOKEN_KEY } from "@/constants";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -16,7 +17,7 @@ const Header = () => {
 
   const handleLogout = () => {
     setIsLoggedIn(false);
-    localStorage.removeItem("accessToken");
+    localStorage.removeItem(TOKEN_KEY);
     navigate("/");
   };
 

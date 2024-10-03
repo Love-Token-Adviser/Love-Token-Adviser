@@ -1,6 +1,7 @@
 import { useState, createContext, ReactNode } from "react";
+import { TOKEN_KEY } from "@/constants";
 
-const tokenKey = localStorage.getItem("accessToken");
+const tokenKey = localStorage.getItem(TOKEN_KEY);
 
 interface LoginContextType {
   isLoggedIn: boolean;

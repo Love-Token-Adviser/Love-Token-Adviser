@@ -2,6 +2,7 @@ import { useState, ChangeEvent, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../apis/apiClient";
 import { useLoginContext } from "@/components/context/useLoginContext";
+import { TOKEN_KEY } from "@/constants";
 
 const LoginPage = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ const LoginPage = () => {
     apiClient
       .post("accounts/login/", { ...formData })
       .then((response) => {
-        localStorage.setItem("accessToken", response.data.token);
+        localStorage.setItem(TOKEN_KEY, response.data.token);
         setIsLoggedIn(true);
         navigate("/");
       })
