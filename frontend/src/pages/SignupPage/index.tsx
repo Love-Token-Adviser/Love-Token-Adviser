@@ -86,7 +86,7 @@ const SignupPage = () => {
           <label className="font-bold">Confirm Password</label>
           <input
             type="password"
-            name="password"
+            name="passwordConfirm"
             className="rounded-md border border-gray-300 p-2 mt-1"
             onChange={handleChange}
           />
