@@ -3,7 +3,7 @@ import { router } from "./routes";
 
 function App() {
   return (
-    <div>
+    <div className="flex flex-col h-screen overflow-hidden">
       <RouterProvider router={router} />
     </div>
   );

@@ -43,7 +43,7 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center min-h-screen bg-gradient-to-r from-pink-400 via-red-300 to-purple-400">
+    <div className="flex flex-col justify-center items-center h-full bg-gradient-to-r from-pink-400 via-red-300 to-purple-400">
       <h2 className="mt-8 text-white text-3xl font-bold">
         Join Us to Find the Perfect Gift!
       </h2>
