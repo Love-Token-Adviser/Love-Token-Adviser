@@ -15,9 +15,15 @@ const Header = () => {
         onClick={() => navigate("/")}
       />
       <div className="flex gap-4">
-        <Button variant="secondary" className="border border-gray-800">
-          Sign in
-        </Button>
+        {pathname !== "/login" && (
+          <Button
+            variant="secondary"
+            onClick={() => navigate("/login")}
+            className="border border-gray-800"
+          >
+            Sign in
+          </Button>
+        )}
         {pathname === "/signup" ? (
           <Button variant="default" onClick={() => navigate("/")}>
             Home
