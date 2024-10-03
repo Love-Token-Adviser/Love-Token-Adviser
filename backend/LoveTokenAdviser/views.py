@@ -43,7 +43,7 @@ def recommend_gift(request):
         "minPrice": min_price,
         "maxPrice": max_price,
         "sort": "standard",
-        "hits": 30,  # 最大取得件数
+        "hits": 30,
     }
 
     response = requests.get(url, params=params)
