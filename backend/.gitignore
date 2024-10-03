@@ -10,3 +10,4 @@ accounts/migrations/
 
 ### OSX ###
 .DS_Store
+backend/accounts/migrations/
