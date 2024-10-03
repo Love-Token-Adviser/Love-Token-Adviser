@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
-import { HomePage, SignupPage, LoginPage } from "@/pages";
+import { HomePage, SignupPage, LoginPage, RecommendationPage } from "@/pages";
 import Layout from "./Layout";
-import { unLoginLoader } from "./loader";
+import { unLoginLoader, loginLoader } from "./loader";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +21,11 @@ const router = createBrowserRouter([
         path: "/login",
         element: <LoginPage />,
         loader: unLoginLoader,
+      },
+      {
+        path: "/recommendation",
+        element: <RecommendationPage />,
+        loader: loginLoader,
       },
     ],
   },
