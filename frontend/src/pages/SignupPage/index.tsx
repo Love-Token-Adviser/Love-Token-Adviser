@@ -33,9 +33,9 @@ const SignupPage = () => {
         email: formData.email,
         password: formData.password,
       })
-      .then((response) => {
-        console.log("User created", response.data);
-        navigate("/");
+      .then(() => {
+        console.log("User created");
+        navigate("/login");
       })
       .catch((error) => {
         console.error("Error creating user", error);

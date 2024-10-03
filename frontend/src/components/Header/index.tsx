@@ -1,10 +1,24 @@
 import heartIcon from "../../assets/heart.png";
 import { Button } from "@/components/ui/button";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useLoginContext } from "@/components/context/useLoginContext";
 
 const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const loginContext = useLoginContext();
+
+  if (!loginContext) {
+    return null;
+  }
+
+  const { isLoggedIn, setIsLoggedIn } = loginContext;
+
+  const handleLogout = () => {
+    setIsLoggedIn(false);
+    localStorage.removeItem("accessToken");
+    navigate("/");
+  };
 
   return (
     <header className="flex justify-between items-center px-6 py-3">
@@ -16,22 +30,36 @@ const Header = () => {
       />
       <div className="flex gap-4">
         {pathname !== "/login" && (
-          <Button
-            variant="secondary"
-            onClick={() => navigate("/login")}
-            className="border border-gray-800"
-          >
-            Sign in
-          </Button>
+          <>
+            {isLoggedIn ? (
+              <Button
+                variant="secondary"
+                className="border border-gray-800"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            ) : (
+              <Button
+                variant="secondary"
+                onClick={() => navigate("/login")}
+                className="border border-gray-800"
+              >
+                Sign in
+              </Button>
+            )}
+          </>
         )}
         {pathname === "/signup" ? (
           <Button variant="default" onClick={() => navigate("/")}>
             Home
           </Button>
         ) : (
-          <Button variant="default" onClick={() => navigate("/signup")}>
-            Register
-          </Button>
+          !isLoggedIn && (
+            <Button variant="default" onClick={() => navigate("/signup")}>
+              Register
+            </Button>
+          )
         )}
       </div>
     </header>

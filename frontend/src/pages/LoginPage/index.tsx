@@ -1,13 +1,21 @@
 import { useState, ChangeEvent, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import apiClient from "../../apis/apiClient";
+import { useLoginContext } from "@/components/context/useLoginContext";
 
 const LoginPage = () => {
   const navigate = useNavigate();
+  const loginContext = useLoginContext();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+
+  if (!loginContext) {
+    return null;
+  }
+
+  const { setIsLoggedIn } = loginContext;
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -24,7 +32,8 @@ const LoginPage = () => {
     apiClient
       .post("accounts/login/", { ...formData })
       .then((response) => {
-        console.log("User Login", response.data);
+        localStorage.setItem("accessToken", response.data.token);
+        setIsLoggedIn(true);
         navigate("/");
       })
       .catch((error) => {
