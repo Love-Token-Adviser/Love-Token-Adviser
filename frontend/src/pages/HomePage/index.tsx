@@ -6,7 +6,9 @@ const HomePage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      await apiClient.get("test/").then((res) => setData(res.data.message));
+      await apiClient
+        .get("LoveTokenAdviser/test/")
+        .then((res) => setData(res.data.message));
     };
 
     fetchData();
