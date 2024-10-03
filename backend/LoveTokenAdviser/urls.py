@@ -4,5 +4,5 @@ from .views import recommend_gift
 
 urlpatterns = [
     path('test/', test_api, name='test_api'),
-    path('recommend/', recommend_gift, name='recommend_gift'),
+    path('recommend_gift/', recommend_gift, name='recommend_gift'),
 ]
