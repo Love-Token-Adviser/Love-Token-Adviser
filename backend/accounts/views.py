@@ -1,21 +1,22 @@
-from django.views import generic
-from django.contrib.auth.models import User
-from .forms import  CustomUserCreationForm
-from .models import CustomUser
-from django.contrib.auth.views import LoginView, LogoutView
-from django.views.generic.base import TemplateView
-
-class CustomAccountCreationView(generic.CreateView):
-    model = CustomUser
-    form_class = CustomUserCreationForm
-    template_name = 'accounts/accounts_create.html'
-    success_url = '/accounts/custom_accounts_create'
-
-class Login(LoginView):
-    template_name = 'accounts/login.html'
-
-class Logout(LogoutView):
-    next_page = '/accounts/login'
-
-class Home(TemplateView):
-    template_name = 'accounts/home.html'
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
+from .serializers import CustomUserSerializer , LoginSerializer
+    
+@api_view(['POST'])
+def create_user(request):
+    if request.method == 'POST':
+        serializer = CustomUserSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+@api_view(['POST'])
+def login(request):
+    serializer = LoginSerializer(data=request.data)
+    if serializer.is_valid():
+        token = serializer.save()['token']
+        return Response({'token': token}, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

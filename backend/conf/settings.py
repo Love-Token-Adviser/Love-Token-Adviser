@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'accounts.apps.AccountsConfig',
     'rest_framework',
+    'rest_framework.authtoken',
     'LoveTokenAdviser',
     'django.contrib.admin',
     'django.contrib.auth',
