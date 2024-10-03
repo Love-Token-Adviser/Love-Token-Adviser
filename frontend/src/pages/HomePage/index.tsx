@@ -14,9 +14,10 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useState } from "react";
 import { useLoginContext } from "@/components/context/useLoginContext";
 import { AlertModal } from "@/components/Modals";
+import { Link } from "react-router-dom";
 
 const HomePage = () => {
-  const [selectedGiftOption, setSelectedGiftOption] = useState("boy-friend");
+  const [selectedGiftOption, setSelectedGiftOption] = useState("0");
   const [selectedOutfitOption, setSelectedOutfitOption] = useState("male");
   const loginContext = useLoginContext();
 
@@ -57,19 +58,19 @@ const HomePage = () => {
                   </AlertDialogTitle>
                   <hr />
                   <RadioGroup
-                    defaultValue="boy-friend"
+                    defaultValue="0"
                     className="py-4"
                     onValueChange={handleSelectGiftOption}
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="boy-friend" id="option-one" />
-                      <Label htmlFor="option-one" className="text-xl">
+                      <RadioGroupItem value="0" id="boy-friend" />
+                      <Label htmlFor="boy-friend" className="text-xl">
                         Boy Friend
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="girl-friend" id="option-two" />
-                      <Label htmlFor="option-two" className="text-xl">
+                      <RadioGroupItem value="1" id="girl-friend" />
+                      <Label htmlFor="girl-friend" className="text-xl">
                         Girl Friend
                       </Label>
                     </div>
@@ -78,7 +79,14 @@ const HomePage = () => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
+                  <AlertDialogAction>
+                    <Link
+                      to="/recommendation"
+                      state={{ type: "gift", gender: selectedGiftOption }}
+                    >
+                      Continue
+                    </Link>
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>
