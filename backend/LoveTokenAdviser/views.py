@@ -18,10 +18,10 @@ def recommend_gift(request):
     max_price = request.GET.get('max_price')  # デフォルト値: 5000
 
     # 性別に応じてキーワードを変更
-    if partner == '1':  # 女性
-        gift_for = '女性向けギフト'
-    elif partner == '0':  # 男性
-        gift_for = '男性向けギフト'
+    if partner == '0':
+        gift_for = '彼氏 プレゼント'
+    elif partner == '1':
+        gift_for = '彼女 プレゼント'
     else:
         gift_for = 'ギフト'  # デフォルト値
 
