@@ -1,6 +1,7 @@
 *.log
 *.pot
 *.pyc
+.env
 __pycache__/
 accounts/__pycache__/
 LoveTokenAdviser/__pycache__/

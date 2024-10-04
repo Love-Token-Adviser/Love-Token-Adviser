@@ -1,4 +1,4 @@
-# Love-Token-Adviser
+# Love-Token-Advisor
 
 ## 1. Project Overview
 - Target Audience: Couples looking for gift ideas and date outfit suggestions
