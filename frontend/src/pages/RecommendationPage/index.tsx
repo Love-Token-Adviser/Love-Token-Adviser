@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useGetRecommendation } from "@/apis/hooks";
 import { HeartIcon, HeartPlusIcon } from "@/assets/Icons";
@@ -34,8 +34,6 @@ const RecommendationPage = () => {
     minPrice,
     maxPrice,
   });
-
-  console.log(likedItems);
 
   useEffect(() => {
     if (fetchedData) {
@@ -114,7 +112,19 @@ const RecommendationPage = () => {
             Search
           </Button>
         </div>
-        <Button className="w-full">Go to Cart</Button>
+        <Button className="w-full relative">
+          {likedItems.length === 0 ? (
+            "No items selected"
+          ) : (
+            <Link
+              to="/cart"
+              className="w-full h-full flex justify-center items-center absolute"
+              state={{ likedItems }}
+            >
+              Go to Cart
+            </Link>
+          )}
+        </Button>
       </div>
 
       {/* 右側の検索結果 */}
