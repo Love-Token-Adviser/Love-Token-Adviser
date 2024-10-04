@@ -17,6 +17,7 @@ def recommend_gift(request):
     age_range = request.GET.get('age')  # 例: 20s
     min_price = request.GET.get('min_price')  # デフォルト値: 1000
     max_price = request.GET.get('max_price')  # デフォルト値: 5000
+    user_keyword = request.GET.get('user_keyword')
 
     # 性別に応じてキーワードを変更
     if partner == '0':
@@ -36,10 +37,12 @@ def recommend_gift(request):
     
     if not max_price:
         max_price = 5000
-
+    
     search_keyword = f"{gift_for} {age_range}"
-    if user_keyword:
+    
+    if user_keyword is not None:
         search_keyword += f" {user_keyword}"
+    
 
     url = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601"
     params = {
@@ -73,23 +76,6 @@ def recommend_gift(request):
 
     except ValueError:
         return JsonResponse({"error": "Invalid response from Rakuten API"}, status=500)
-      
-    # 必要なデータを整形し、Unicodeエスケープをデコード
-    products = []
-    for item in data['Items']:
-        product = {
-            "Name": item['Item']['itemName'],  # Unicodeエスケープされた日本語をそのまま利用
-            "Price": item['Item']['itemPrice'],
-            "image": item['Item']['mediumImageUrls'][0]['imageUrl'],
-            "URL": item['Item']['itemUrl'],
-        }
-        # Unicodeエスケープされた文字列をPythonの内部で日本語に変換
-        products.append(product)
-
-    # productsを直接JsonResponseに渡す
-
-    return JsonResponse(products, safe=False)
-
 
 def recommend_outfit(request):
     # パートナーの性別と価格範囲を取得
@@ -97,6 +83,7 @@ def recommend_outfit(request):
     age_range = request.GET.get('age')  # 例: 20s
     min_price = request.GET.get('min_price')  # デフォルト値: 1000
     max_price = request.GET.get('max_price')  # デフォルト値: 5000
+    user_keyword = request.GET.get('user_keyword')
 
     # 性別に応じてキーワードを変更
     if gender == '0':
@@ -115,11 +102,16 @@ def recommend_outfit(request):
     if not max_price:
         max_price = 5000
         
+    search_keyword = f"{outfit_for} {age_range}"   
+        
+    if user_keyword is not None:
+        search_keyword += f" {user_keyword}"
+        
     # Rakuten APIへのリクエスト
     url = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601"
     params = {
         "applicationId": settings.RAKUTEN_APP_ID,
-        "keyword": f"{outfit_for} {age_range}",
+        "keyword": search_keyword,
         "minPrice": min_price,
         "maxPrice": max_price,
         "sort": "standard",
