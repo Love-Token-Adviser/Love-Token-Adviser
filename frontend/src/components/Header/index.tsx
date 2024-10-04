@@ -30,6 +30,15 @@ const Header = () => {
         onClick={() => navigate("/")}
       />
       <div className="flex gap-4">
+        {pathname === "/cart" && (
+          <Button
+            variant="default"
+            className="border border-gray-800"
+            onClick={() => navigate(-1)}
+          >
+            Back
+          </Button>
+        )}
         {pathname !== "/login" && (
           <>
             {isLoggedIn ? (
@@ -51,6 +60,7 @@ const Header = () => {
             )}
           </>
         )}
+
         {pathname === "/signup" ? (
           <Button variant="default" onClick={() => navigate("/")}>
             Home
