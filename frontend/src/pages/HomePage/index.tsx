@@ -126,7 +126,14 @@ const HomePage = () => {
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
+                  <AlertDialogAction>
+                    <Link
+                      to="/recommendation"
+                      state={{ type: "outfit", gender: selectedGiftOption }}
+                    >
+                      Continue
+                    </Link>
+                  </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
             </AlertDialog>

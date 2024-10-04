@@ -1,6 +1,6 @@
 import apiClient from "@/apis/apiClient";
 import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface LocationState {
   type: "gift" | "outfit";
@@ -19,14 +19,15 @@ const ITEMS_PER_PAGE = 8; // 1ページあたりのアイテム数
 const RecommendationPage = () => {
   const location = useLocation();
   const { type, gender }: LocationState = location.state;
-  const [datas, setDatas] = useState<Data[]>([]);
+  const [data, setData] = useState<Data[]>([]);
   const [keyword, setKeyword] = useState(""); // キーワード入力の状態管理
   const [minPrice, setMinPrice] = useState(""); // 最小価格の状態管理
   const [maxPrice, setMaxPrice] = useState(""); // 最大価格の状態管理
   const [currentPage, setCurrentPage] = useState(1); // 現在のページ番号
 
   // フィルタリングデータを取得する関数
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
+    console.log("fetchData~");
     const data = await apiClient
       .get("/LoveTokenAdviser/recommend_gift/", {
         params: {
@@ -37,21 +38,35 @@ const RecommendationPage = () => {
         },
       })
       .then((res) => res.data);
-    setDatas(() => data);
-  };
+    setData(() => data);
+  }, [gender, minPrice, maxPrice, keyword]);
+
+  // const fetchData = async () => {
+  //   const data = await apiClient
+  //     .get("/LoveTokenAdviser/recommend_gift/", {
+  //       params: {
+  //         gender,
+  //         min_price: minPrice || undefined, // 値が設定されている場合のみ送信
+  //         max_price: maxPrice || undefined, // 値が設定されている場合のみ送信
+  //         keyword: keyword || undefined, // キーワードが設定されている場合のみ送信
+  //       },
+  //     })
+  //     .then((res) => res.data);
+  //   setDatas(() => data);
+  // };
 
   // ページ初期表示時にデータを取得
   useEffect(() => {
     fetchData();
-  }, [gender]);
+  }, [gender, minPrice, maxPrice, keyword, fetchData]);
 
   // 現在のページに応じた表示データの取得
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-  const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   // 総ページ数の計算
-  const totalPages = Math.ceil(datas.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
 
   // ページ移動関数
   const goToNextPage = () => {
