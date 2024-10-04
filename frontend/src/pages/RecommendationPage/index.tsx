@@ -2,6 +2,7 @@ import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useGetRecommendation } from "@/apis/hooks";
 import { HeartIcon, HeartPlusIcon } from "@/assets/Icons";
+import { Button } from "@/components/ui/button";
 
 interface LocationState {
   type: "gift" | "outfit";
@@ -71,46 +72,49 @@ const RecommendationPage = () => {
   };
 
   return (
-    <div className="relative h-full flex">
+    <div className="w-full h-full flex overflow-hidden">
       {/* 左側の入力フォーム */}
-      <div className="w-1/4 bg-white p-6 shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Filter Options</h2>
-        <div className="mb-4">
-          <label className="block text-gray-700">Keyword</label>
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Enter keyword"
-          />
+      <div className="w-1/4 bg-white p-6 shadow-lg flex flex-col justify-between">
+        <div className="w-full">
+          <h2 className="text-2xl font-bold mb-4">Filter Options</h2>
+          <div className="mb-4">
+            <label className="block text-gray-700">Keyword</label>
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter keyword"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Min Price (円)</label>
+            <input
+              type="number"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Min price"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Max Price (円)</label>
+            <input
+              type="number"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Max price"
+            />
+          </div>
+          <Button
+            onClick={handleSearch}
+            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 mt-4"
+          >
+            Search
+          </Button>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Min Price (円)</label>
-          <input
-            type="number"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Min price"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Max Price (円)</label>
-          <input
-            type="number"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Max price"
-          />
-        </div>
-        <button
-          onClick={handleSearch}
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-          Search
-        </button>
+        <Button className="w-full">Go to Cart</Button>
       </div>
 
       {/* 右側の検索結果 */}
@@ -173,7 +177,7 @@ const RecommendationPage = () => {
             </ul>
 
             {/* ページネーション */}
-            <div className="pb-16 pt-6 px-2 min-h-fit">
+            <div className="pt-6 py-2 px-2 min-h-fit">
               <div className="flex justify-between items-center w-full h-10">
                 <button
                   onClick={goToPreviousPage}
