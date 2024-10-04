@@ -1,7 +1,7 @@
-// import apiClient from "@/apis/apiClient";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useGetRecommendation } from "@/apis/hooks";
+import { HeartIcon, HeartPlusIcon } from "@/assets/Icons";
 
 interface LocationState {
   type: "gift" | "outfit";
@@ -25,6 +25,7 @@ const RecommendationPage = () => {
   const [minPrice, setMinPrice] = useState(""); // 最小価格の状態管理
   const [maxPrice, setMaxPrice] = useState(""); // 最大価格の状態管理
   const [currentPage, setCurrentPage] = useState(1); // 現在のページ番号
+  const [likedItems, setLikedItems] = useState<Data[]>([]); // お気に入りアイテムの状態管理
   const { data: fetchedData, refetch: giftRefetch } = useGetRecommendation({
     type,
     gender,
@@ -32,6 +33,8 @@ const RecommendationPage = () => {
     minPrice,
     maxPrice,
   });
+
+  console.log(likedItems);
 
   useEffect(() => {
     if (fetchedData) {
@@ -121,26 +124,49 @@ const RecommendationPage = () => {
 
           <div className="h-full w-full relative  py-6">
             <ul className="grid grid-cols-4 gap-6 min-h-fit">
-              {currentItems.map((data, idx) => (
+              {currentItems.map((item, idx) => (
                 <li
                   key={idx}
                   className="relative min-h-fit flex flex-col bg-white p-4 shadow-md rounded-lg hover:shadow-lg transition-shadow"
                 >
                   <img
-                    src={data.image}
-                    alt={data.Name}
+                    src={item.image}
+                    alt={item.Name}
                     className="w-full h-48 object-cover rounded-md"
                   />
                   <div className="flex flex-col mt-4">
                     <a
-                      href={data.URL}
+                      href={item.URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-lg font-semibold text-blue-600 hover:underline"
                     >
-                      {truncateTitle(data.Name, 20)}
+                      {truncateTitle(item.Name, 20)}
                     </a>
-                    <p className="text-gray-600 mt-1">{data.Price}円</p>
+                    <div className="flex justify-between items-center">
+                      <p className="text-gray-600 mt-1">{item.Price}円</p>
+                      {likedItems.find((each) => item.Name === each.Name) ? (
+                        <HeartPlusIcon
+                          onClick={() =>
+                            setLikedItems((prev) => {
+                              return prev.filter(
+                                (each) => each.Name !== item.Name
+                              );
+                            })
+                          }
+                        />
+                      ) : (
+                        <HeartIcon
+                          onClick={() =>
+                            setLikedItems((prev) => {
+                              return prev.includes(item)
+                                ? prev
+                                : [...prev, item];
+                            })
+                          }
+                        />
+                      )}
+                    </div>
                   </div>
                 </li>
               ))}
