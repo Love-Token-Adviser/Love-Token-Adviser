@@ -73,18 +73,18 @@ def recommend_gift(request):
 
 def recommend_outfit(request):
     # パートナーの性別と価格範囲を取得
-    partner = request.GET.get('gender')
+    gender = request.GET.get('gender')
     age_range = request.GET.get('age')  # 例: 20s
     min_price = request.GET.get('min_price')  # デフォルト値: 1000
     max_price = request.GET.get('max_price')  # デフォルト値: 5000
 
     # 性別に応じてキーワードを変更
-    if partner == '1':  # 女性
-        outfit_for = '女性向け服'
-    elif partner == '0':  # 男性
-        outfit_for = '男性向け服'
+    if gender == '0':
+        outfit_for = '男性ファッション'
+    elif gender == '1':
+        outfit_for = '女性ファッション'
     else:
-        outfit_for = '服'  # デフォルト値
+        outfit_for = 'ファッション'  # デフォルト値
         
     if not age_range:
         age_range = "20代"  # デフォルトは20代
@@ -103,7 +103,7 @@ def recommend_outfit(request):
         "minPrice": min_price,
         "maxPrice": max_price,
         "sort": "standard",
-        "hits": 30,  # 最大取得件数
+        "hits": 30,
     }
 
     response = requests.get(url, params=params)
