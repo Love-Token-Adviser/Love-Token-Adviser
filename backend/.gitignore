@@ -10,5 +10,8 @@ accounts/migrations/
 
 db.sqlite3
 
+accounts/migrations/
+
 ### OSX ###
 .DS_Store
+backend/accounts/migrations/
