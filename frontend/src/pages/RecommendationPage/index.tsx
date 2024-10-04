@@ -1,6 +1,7 @@
-import apiClient from "@/apis/apiClient";
+// import apiClient from "@/apis/apiClient";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useGetRecommendation } from "@/apis/hooks";
 
 interface LocationState {
   type: "gift" | "outfit";
@@ -19,39 +20,33 @@ const ITEMS_PER_PAGE = 8; // 1ページあたりのアイテム数
 const RecommendationPage = () => {
   const location = useLocation();
   const { type, gender }: LocationState = location.state;
-  const [datas, setDatas] = useState<Data[]>([]);
+  const [data, setData] = useState<Data[]>([]);
   const [keyword, setKeyword] = useState(""); // キーワード入力の状態管理
   const [minPrice, setMinPrice] = useState(""); // 最小価格の状態管理
   const [maxPrice, setMaxPrice] = useState(""); // 最大価格の状態管理
   const [currentPage, setCurrentPage] = useState(1); // 現在のページ番号
+  const { data: fetchedData, refetch: giftRefetch } = useGetRecommendation({
+    type,
+    gender,
+    keyword,
+    minPrice,
+    maxPrice,
+  });
 
-  // フィルタリングデータを取得する関数
-  const fetchData = async () => {
-    const data = await apiClient
-      .get("/LoveTokenAdviser/recommend_gift/", {
-        params: {
-          gender,
-          min_price: minPrice || undefined, // 値が設定されている場合のみ送信
-          max_price: maxPrice || undefined, // 値が設定されている場合のみ送信
-          keyword: keyword || undefined, // キーワードが設定されている場合のみ送信
-        },
-      })
-      .then((res) => res.data);
-    setDatas(() => data);
-  };
-
-  // ページ初期表示時にデータを取得
   useEffect(() => {
-    fetchData();
-  }, [gender]);
+    if (fetchedData) {
+      console.log("fetchedData changed");
+      setData(fetchedData);
+    }
+  }, [fetchedData]);
 
   // 現在のページに応じた表示データの取得
   const indexOfLastItem = currentPage * ITEMS_PER_PAGE;
   const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE;
-  const currentItems = datas.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   // 総ページ数の計算
-  const totalPages = Math.ceil(datas.length / ITEMS_PER_PAGE);
+  const totalPages = Math.ceil(data.length / ITEMS_PER_PAGE);
 
   // ページ移動関数
   const goToNextPage = () => {
@@ -63,8 +58,8 @@ const RecommendationPage = () => {
   };
 
   const handleSearch = () => {
-    fetchData(); // 検索ボタンが押されたときにデータを更新
-    setCurrentPage(1); // 検索時にページを最初に戻す
+    giftRefetch();
+    setCurrentPage(1);
   };
 
   const truncateTitle = (title: string, maxLength: number) => {
@@ -116,58 +111,63 @@ const RecommendationPage = () => {
       </div>
 
       {/* 右側の検索結果 */}
-      <div className="w-3/4 h-full p-6 bg-gray-100">
-        <div className="w-full max-w-6xl">
-          <h1 className="text-4xl font-bold text-gray-900 mb-6">
+      <div className="w-full h-full relative px-6 py-4 bg-gray-100">
+        <div className="w-full h-full max-w-6xl overflow-y-scroll">
+          <h1 className="text-4xl font-bold text-gray-900 py-4">
             {type === "gift"
               ? "Gift Recommendations"
               : "Outfit Recommendations"}
           </h1>
-          <ul className="grid grid-cols-4 gap-6">
-            {currentItems.map((data, idx) => (
-              <li
-                key={idx}
-                className="relative flex flex-col bg-white p-4 shadow-md rounded-lg hover:shadow-lg transition-shadow"
-              >
-                <img
-                  src={data.image}
-                  alt={data.Name}
-                  className="w-full h-48 object-cover rounded-md"
-                />
-                <div className="flex flex-col mt-4">
-                  <a
-                    href={data.URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-lg font-semibold text-blue-600 hover:underline"
-                  >
-                    {truncateTitle(data.Name, 20)}
-                  </a>
-                  <p className="text-gray-600 mt-1">{data.Price}円</p>
-                </div>
-              </li>
-            ))}
-          </ul>
 
-          {/* ページネーション */}
-          <div className="flex justify-between items-center mt-6">
-            <button
-              onClick={goToPreviousPage}
-              disabled={currentPage === 1}
-              className="bg-gray-500 text-white py-2 px-4 rounded disabled:bg-gray-300"
-            >
-              Previous
-            </button>
-            <span>
-              Page {currentPage} of {totalPages}
-            </span>
-            <button
-              onClick={goToNextPage}
-              disabled={currentPage === totalPages}
-              className="bg-gray-500 text-white py-2 px-4 rounded disabled:bg-gray-300"
-            >
-              Next
-            </button>
+          <div className="h-full w-full relative  py-6">
+            <ul className="grid grid-cols-4 gap-6 min-h-fit">
+              {currentItems.map((data, idx) => (
+                <li
+                  key={idx}
+                  className="relative min-h-fit flex flex-col bg-white p-4 shadow-md rounded-lg hover:shadow-lg transition-shadow"
+                >
+                  <img
+                    src={data.image}
+                    alt={data.Name}
+                    className="w-full h-48 object-cover rounded-md"
+                  />
+                  <div className="flex flex-col mt-4">
+                    <a
+                      href={data.URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-lg font-semibold text-blue-600 hover:underline"
+                    >
+                      {truncateTitle(data.Name, 20)}
+                    </a>
+                    <p className="text-gray-600 mt-1">{data.Price}円</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+
+            {/* ページネーション */}
+            <div className="pb-16 pt-6 px-2 min-h-fit">
+              <div className="flex justify-between items-center w-full h-10">
+                <button
+                  onClick={goToPreviousPage}
+                  disabled={currentPage === 1}
+                  className="bg-gray-500 text-white py-2 px-4 rounded disabled:bg-gray-300"
+                >
+                  Previous
+                </button>
+                <span>
+                  Page {currentPage} of {totalPages}
+                </span>
+                <button
+                  onClick={goToNextPage}
+                  disabled={currentPage === totalPages}
+                  className="bg-gray-500 text-white py-2 px-4 rounded disabled:bg-gray-300"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

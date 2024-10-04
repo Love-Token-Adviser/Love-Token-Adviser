@@ -6,11 +6,9 @@ from django.conf import settings
 from .models import FavoriteGift
 from .serializers import FavoriteGiftSerializer
 
-
 @api_view(['GET'])
 def test_api(request):
     return Response({"message": "Hello from Django!"})
-
 
 def recommend_gift(request):
     partner = request.GET.get('gender')
@@ -39,10 +37,9 @@ def recommend_gift(request):
         max_price = 5000
     
     search_keyword = f"{gift_for} {age_range}"
-    
+
     if user_keyword is not None:
-        search_keyword += f" {user_keyword}"
-    
+        search_keyword += f" {user_keyword}"    
 
     url = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601"
     params = {
