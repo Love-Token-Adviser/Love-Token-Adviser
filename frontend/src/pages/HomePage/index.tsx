@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   const [selectedGiftOption, setSelectedGiftOption] = useState("0");
-  const [selectedOutfitOption, setSelectedOutfitOption] = useState("male");
+  const [selectedOutfitOption, setSelectedOutfitOption] = useState("0");
   const loginContext = useLoginContext();
 
   if (!loginContext) {
@@ -28,14 +28,12 @@ const HomePage = () => {
   const { isLoggedIn } = loginContext;
 
   const handleSelectGiftOption = (value: string) => {
-    setSelectedGiftOption(value);
+    setSelectedGiftOption(() => value);
   };
 
   const handleSelectOutfitOption = (value: string) => {
-    setSelectedOutfitOption(value);
+    setSelectedOutfitOption(() => value);
   };
-
-  console.log(selectedGiftOption, selectedOutfitOption);
 
   return (
     <div className="relative h-full flex justify-center items-center bg-present bg-cover">
@@ -105,18 +103,18 @@ const HomePage = () => {
                   </AlertDialogTitle>
                   <hr />
                   <RadioGroup
-                    defaultValue="male"
+                    defaultValue="0"
                     className="py-4"
                     onValueChange={handleSelectOutfitOption}
                   >
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="male" id="option-one" />
+                      <RadioGroupItem value="0" id="option-one" />
                       <Label htmlFor="option-one" className="text-xl">
                         Male
                       </Label>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="female" id="option-two" />
+                      <RadioGroupItem value="1" id="option-two" />
                       <Label htmlFor="option-two" className="text-xl">
                         Female
                       </Label>
@@ -129,7 +127,7 @@ const HomePage = () => {
                   <AlertDialogAction>
                     <Link
                       to="/recommendation"
-                      state={{ type: "outfit", gender: selectedGiftOption }}
+                      state={{ type: "outfit", gender: selectedOutfitOption }}
                     >
                       Continue
                     </Link>
