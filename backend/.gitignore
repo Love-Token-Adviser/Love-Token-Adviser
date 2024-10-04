@@ -5,6 +5,9 @@
 __pycache__/
 accounts/__pycache__/
 LoveTokenAdviser/__pycache__/
+LoveTokenAdviser/migrations/
+accounts/migrations/
+
 db.sqlite3
 
 ### OSX ###
