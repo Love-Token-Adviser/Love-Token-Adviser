@@ -1,7 +1,8 @@
-// import apiClient from "@/apis/apiClient";
 import { useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useGetRecommendation } from "@/apis/hooks";
+import { HeartIcon, HeartPlusIcon } from "@/assets/Icons";
+import { Button } from "@/components/ui/button";
 
 interface LocationState {
   type: "gift" | "outfit";
@@ -25,6 +26,7 @@ const RecommendationPage = () => {
   const [minPrice, setMinPrice] = useState(""); // 最小価格の状態管理
   const [maxPrice, setMaxPrice] = useState(""); // 最大価格の状態管理
   const [currentPage, setCurrentPage] = useState(1); // 現在のページ番号
+  const [likedItems, setLikedItems] = useState<Data[]>([]); // お気に入りアイテムの状態管理
   const { data: fetchedData, refetch: giftRefetch } = useGetRecommendation({
     type,
     gender,
@@ -32,6 +34,8 @@ const RecommendationPage = () => {
     minPrice,
     maxPrice,
   });
+
+  console.log(likedItems);
 
   useEffect(() => {
     if (fetchedData) {
@@ -68,46 +72,49 @@ const RecommendationPage = () => {
   };
 
   return (
-    <div className="relative h-full flex">
+    <div className="w-full h-full flex overflow-hidden">
       {/* 左側の入力フォーム */}
-      <div className="w-1/4 bg-white p-6 shadow-lg">
-        <h2 className="text-2xl font-bold mb-4">Filter Options</h2>
-        <div className="mb-4">
-          <label className="block text-gray-700">Keyword</label>
-          <input
-            type="text"
-            value={keyword}
-            onChange={(e) => setKeyword(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Enter keyword"
-          />
+      <div className="w-1/4 bg-white p-6 shadow-lg flex flex-col justify-between">
+        <div className="w-full">
+          <h2 className="text-2xl font-bold mb-4">Filter Options</h2>
+          <div className="mb-4">
+            <label className="block text-gray-700">Keyword</label>
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Enter keyword"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Min Price (円)</label>
+            <input
+              type="number"
+              value={minPrice}
+              onChange={(e) => setMinPrice(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Min price"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700">Max Price (円)</label>
+            <input
+              type="number"
+              value={maxPrice}
+              onChange={(e) => setMaxPrice(e.target.value)}
+              className="w-full p-2 border border-gray-300 rounded"
+              placeholder="Max price"
+            />
+          </div>
+          <Button
+            onClick={handleSearch}
+            className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600 mt-4"
+          >
+            Search
+          </Button>
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Min Price (円)</label>
-          <input
-            type="number"
-            value={minPrice}
-            onChange={(e) => setMinPrice(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Min price"
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Max Price (円)</label>
-          <input
-            type="number"
-            value={maxPrice}
-            onChange={(e) => setMaxPrice(e.target.value)}
-            className="w-full p-2 border border-gray-300 rounded"
-            placeholder="Max price"
-          />
-        </div>
-        <button
-          onClick={handleSearch}
-          className="w-full bg-blue-500 text-white py-2 rounded hover:bg-blue-600"
-        >
-          Search
-        </button>
+        <Button className="w-full">Go to Cart</Button>
       </div>
 
       {/* 右側の検索結果 */}
@@ -121,33 +128,56 @@ const RecommendationPage = () => {
 
           <div className="h-full w-full relative  py-6">
             <ul className="grid grid-cols-4 gap-6 min-h-fit">
-              {currentItems.map((data, idx) => (
+              {currentItems.map((item, idx) => (
                 <li
                   key={idx}
                   className="relative min-h-fit flex flex-col bg-white p-4 shadow-md rounded-lg hover:shadow-lg transition-shadow"
                 >
                   <img
-                    src={data.image}
-                    alt={data.Name}
+                    src={item.image}
+                    alt={item.Name}
                     className="w-full h-48 object-cover rounded-md"
                   />
                   <div className="flex flex-col mt-4">
                     <a
-                      href={data.URL}
+                      href={item.URL}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-lg font-semibold text-blue-600 hover:underline"
                     >
-                      {truncateTitle(data.Name, 20)}
+                      {truncateTitle(item.Name, 20)}
                     </a>
-                    <p className="text-gray-600 mt-1">{data.Price}円</p>
+                    <div className="flex justify-between items-center">
+                      <p className="text-gray-600 mt-1">{item.Price}円</p>
+                      {likedItems.find((each) => item.Name === each.Name) ? (
+                        <HeartPlusIcon
+                          onClick={() =>
+                            setLikedItems((prev) => {
+                              return prev.filter(
+                                (each) => each.Name !== item.Name
+                              );
+                            })
+                          }
+                        />
+                      ) : (
+                        <HeartIcon
+                          onClick={() =>
+                            setLikedItems((prev) => {
+                              return prev.includes(item)
+                                ? prev
+                                : [...prev, item];
+                            })
+                          }
+                        />
+                      )}
+                    </div>
                   </div>
                 </li>
               ))}
             </ul>
 
             {/* ページネーション */}
-            <div className="pb-16 pt-6 px-2 min-h-fit">
+            <div className="pt-6 py-2 px-2 min-h-fit">
               <div className="flex justify-between items-center w-full h-10">
                 <button
                   onClick={goToPreviousPage}
