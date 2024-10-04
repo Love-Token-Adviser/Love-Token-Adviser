@@ -38,8 +38,6 @@ def recommend_gift(request):
         max_price = 5000
 
     search_keyword = f"{gift_for} {age_range}"
-    if user_keyword:
-        search_keyword += f" {user_keyword}"
 
     url = "https://app.rakuten.co.jp/services/api/IchibaItem/Search/20220601"
     params = {
@@ -74,22 +72,6 @@ def recommend_gift(request):
     except ValueError:
         return JsonResponse({"error": "Invalid response from Rakuten API"}, status=500)
       
-    # 必要なデータを整形し、Unicodeエスケープをデコード
-    products = []
-    for item in data['Items']:
-        product = {
-            "Name": item['Item']['itemName'],  # Unicodeエスケープされた日本語をそのまま利用
-            "Price": item['Item']['itemPrice'],
-            "image": item['Item']['mediumImageUrls'][0]['imageUrl'],
-            "URL": item['Item']['itemUrl'],
-        }
-        # Unicodeエスケープされた文字列をPythonの内部で日本語に変換
-        products.append(product)
-
-    # productsを直接JsonResponseに渡す
-
-    return JsonResponse(products, safe=False)
-
 
 def recommend_outfit(request):
     # パートナーの性別と価格範囲を取得
